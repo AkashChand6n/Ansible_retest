@@ -1,0 +1,4 @@
+---
+web_package: apache2       # For Ubuntu (use httpd for CentOS/RHEL)
+web_service: apache2
+web_root: /var/www/html

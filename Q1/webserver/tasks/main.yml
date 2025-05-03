@@ -1,0 +1,26 @@
+---
+- name: Install web server package
+  apt:
+    name: "{{ web_package }}"
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install web server package (RedHat)
+  yum:
+    name: "{{ web_package }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure web server is running and enabled
+  service:
+    name: "{{ web_service }}"
+    state: started
+    enabled: yes
+
+- name: Deploy sample HTML page
+  template:
+    src: index.html.j2
+    dest: "{{ web_root }}/index.html"
+    mode: '0644'
+  notify: Restart web server
